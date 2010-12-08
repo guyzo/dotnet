@@ -1,0 +1,70 @@
+﻿<Window x:Class="Dotnet.Samples.Rijndael.Win"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sample of Advanced Encryption Standard (Rijndael)" Width="512" MinWidth="512" MaxWidth="1024" Height="382" MinHeight="382" MaxHeight="382" Icon="/res/VisualStudio.ico" Name="AesWindow" Loaded="AesWindow_Loaded">
+    <Grid Name="AesGrid" ShowGridLines="True" Height="Auto" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Margin="8" Text="Dotnet.Samples.Rijndael" FontSize="18" Name="TitleTextBLock" />
+        <Grid Grid.Row="1" Name="InputOutputGrid" ShowGridLines="True" Width="Auto" Height="Auto" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Name="InputGroupBox" Header="Input" Width="Auto" Height="Auto" Margin="8" VerticalAlignment="Top">
+                <TextBox Name="InputTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" VerticalAlignment="Top" />
+            </GroupBox>
+            <GroupBox Grid.Column="1" Name="OutputGroupBox" Header="Output" Width="Auto" Height="Auto" Margin="8" VerticalAlignment="Top">
+                <TextBox Name="OutputTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" VerticalAlignment="Top" />
+            </GroupBox>
+        </Grid>
+        <GroupBox Grid.Row="2" Name="SettingsGroupBox" Header="Settings" Width="Auto" Height="Auto" Margin="8" VerticalAlignment="Top">
+            <!-- Settings: Passphrase, Salt, Hash Algorithm, iterations, Vector, Key Size -->
+            <Grid Name="SettingsGrid" ShowGridLines="True" Width="Auto" Height="Auto" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Name="SettingsGridLeft" ShowGridLines="True" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Name="PassphraseTextBlock" Text="Passphrase" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" TextAlignment="Right"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Name="PassphraseTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Name="SaltTextBlock" Text="Salt" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" TextAlignment="Right"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Name="SaltTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Name="HashAlgorithmTextBlock" Text="Algorithm" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" TextAlignment="Right" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Name="HashAlgorithmTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" />
+                </Grid>
+                <Grid Grid.Column="1" Name="SettingsGridRight" ShowGridLines="True" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Name="IterationsTextBlock" Text="Iterations" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
+                    <TextBox Grid.Column="1" Grid.Row="0" Name="IterationsTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Name="VectorTextBlock" Text="Vector" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
+                    <TextBox Grid.Column="1" Grid.Row="1" Name="VectorTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Name="KeySizeTextBlock" Text="Key Size" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Name="KeySizeTextBox" MinWidth="128" MinHeight="24" MaxHeight="24" Margin="8" />
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="3" Name="EncryptDecryptButton" Margin="8" Width="64" Height="32" Content="Encrypt" Click="EncryptDecryptButton_Click" />
+    </Grid>
+</Window>
