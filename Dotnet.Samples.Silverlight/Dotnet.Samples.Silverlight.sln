@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Samples.Silverlight", "Dotnet.Samples.Silverlight\Dotnet.Samples.Silverlight.csproj", "{A16A1366-6688-4974-B8FB-A33D35643797}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.Samples.Silverlight.Web", "Dotnet.Samples.Silverlight.Web\Dotnet.Samples.Silverlight.Web.csproj", "{348A7391-3243-47B9-90BA-DA8A3744C1AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A16A1366-6688-4974-B8FB-A33D35643797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16A1366-6688-4974-B8FB-A33D35643797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16A1366-6688-4974-B8FB-A33D35643797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16A1366-6688-4974-B8FB-A33D35643797}.Release|Any CPU.Build.0 = Release|Any CPU
+		{348A7391-3243-47B9-90BA-DA8A3744C1AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348A7391-3243-47B9-90BA-DA8A3744C1AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348A7391-3243-47B9-90BA-DA8A3744C1AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348A7391-3243-47B9-90BA-DA8A3744C1AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
