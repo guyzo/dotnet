@@ -41,6 +41,7 @@ namespace Dotnet.Samples.Silverlight
         public bool InStock { get; set; }
         #endregion
 
+        #region Constructor
         public Book(string isbn10, string title, string author, string publisher, DateTime published, string isbn13 = "N/A", string collaborator = "N/A", int? pages = null, bool instock = true)
         {
             this.Isbn10 = isbn10;
@@ -53,8 +54,10 @@ namespace Dotnet.Samples.Silverlight
             this.Pages = pages;
             this.InStock = instock;
         }
+        #endregion
     }
 
+    #region Extensions
     public static class BookExtensions
     {
         public static List<Book> AddBooks(this List<Book> books)
@@ -69,5 +72,6 @@ namespace Dotnet.Samples.Silverlight
             return books;
         }
     }
+    #endregion
 }
 

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A16A1366-6688-4974-B8FB-A33D35643797}</ProjectGuid>
+    <ProjectGuid>{C56877CA-AE23-47FB-AE10-0EA8EEF4F89D}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>src</AppDesignerFolder>
@@ -20,7 +20,7 @@
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>Dotnet.Samples.Silverlight.xap</XapFilename>
-    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightManifestTemplate>src\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>Dotnet.Samples.Silverlight.App</SilverlightAppEntry>
     <TestPageFileName>Dotnet.Samples.SilverlightTestPage.html</TestPageFileName>
     <CreateTestPage>true</CreateTestPage>
