@@ -59,7 +59,7 @@ namespace Dotnet.Samples.Rijndael
                 {
                     this.SetTextBoxesReadOnly(true);
 
-                    Aes aes = new Aes();
+                    Cipher aes = new Cipher();
 
                     this.OutputTextBox.Text = aes.Encrypt(this.InputTextBox.Text,
                                                           this.PassphraseTextBox.Text,
@@ -74,7 +74,7 @@ namespace Dotnet.Samples.Rijndael
                 }
                 else
                 {
-                    Aes aes = new Aes();
+                    Cipher aes = new Cipher();
 
                     this.OutputTextBox.Text = aes.Decrypt(this.OutputTextBox.Text,
                                                             this.PassphraseTextBox.Text,

@@ -29,47 +29,52 @@ namespace Dotnet.Samples.Rijndael
     using System.Text;
     #endregion
 
-    public class Aes
+    public class Cipher
     {
         #region Encryption
         public string Encrypt(string plaintext, string passphrase, string salt, string hashAlgorithm, int iterations, string vector, int keySize)
         {
-            byte[] vectorData = Encoding.ASCII.GetBytes(vector);
             byte[] saltData = Encoding.ASCII.GetBytes(salt);
             byte[] plaintextData = Encoding.UTF8.GetBytes(plaintext);
             PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(passphrase, saltData, hashAlgorithm, iterations);
             byte[] keyData = derivedPassword.GetBytes(keySize / 8);
+            byte[] vectorData = Encoding.ASCII.GetBytes(vector);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
             ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyData, vectorData);
-            MemoryStream persistence = new MemoryStream();
-            CryptoStream transformer = new CryptoStream(persistence, encryptor, CryptoStreamMode.Write);
-            transformer.Write(plaintextData, 0, plaintextData.Length);
-            transformer.FlushFinalBlock();
-            byte[] ciphertextData = persistence.ToArray();
-            persistence.Close();
-            transformer.Close();
-            return Convert.ToBase64String(ciphertextData);
+            using (MemoryStream persistence = new MemoryStream())
+            {
+                using (CryptoStream transformer = new CryptoStream(persistence, encryptor, CryptoStreamMode.Write))
+                {
+                    transformer.Write(plaintextData, 0, plaintextData.Length);
+                    transformer.FlushFinalBlock();
+                    byte[] ciphertextData = persistence.ToArray();
+                    return Convert.ToBase64String(ciphertextData);
+                }
+            }
         }
         #endregion
+
         #region Decryption
         public string Decrypt(string ciphertext, string passphrase, string salt, string hashAlgorithm, int iterations, string vector, int keySize)
         {
-            byte[] vectorData = Encoding.ASCII.GetBytes(vector);
-            byte[] saltData = Encoding.ASCII.GetBytes(salt);
             byte[] cyphertextData = Convert.FromBase64String(ciphertext);
+            byte[] saltData = Encoding.ASCII.GetBytes(salt);
             PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(passphrase, saltData, hashAlgorithm, iterations);
             byte[] keyData = derivedPassword.GetBytes(keySize / 8);
+            byte[] vectorData = Encoding.ASCII.GetBytes(vector);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
             ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyData, vectorData);
-            MemoryStream persistence = new MemoryStream(cyphertextData);
-            CryptoStream transformer = new CryptoStream(persistence, decryptor, CryptoStreamMode.Read);
-            byte[] plaintextData = new byte[cyphertextData.Length];
-            int plaintextSize = transformer.Read(plaintextData, 0, plaintextData.Length);
-            persistence.Close();
-            transformer.Close();
-            return Encoding.UTF8.GetString(plaintextData, 0, plaintextSize);
+            using (MemoryStream persistence = new MemoryStream(cyphertextData))
+            {
+                using (CryptoStream transformer = new CryptoStream(persistence, decryptor, CryptoStreamMode.Read))
+                {
+                    byte[] plaintextData = new byte[cyphertextData.Length];
+                    int plaintextSize = transformer.Read(plaintextData, 0, plaintextData.Length);
+                    return Encoding.UTF8.GetString(plaintextData, 0, plaintextSize);
+                }
+            }
         }
         #endregion
     }
