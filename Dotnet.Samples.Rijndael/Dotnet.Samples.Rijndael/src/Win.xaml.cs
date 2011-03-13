@@ -26,6 +26,7 @@ namespace Dotnet.Samples.Rijndael
     using System;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media;
     #endregion
 
     /// <summary>
@@ -33,22 +34,25 @@ namespace Dotnet.Samples.Rijndael
     /// </summary>
     public partial class Win : Window
     {
+
+        private Cipher cipher = new Cipher();
+
         public Win()
         {
             this.InitializeComponent();
-            this.InitializeTextBoxes();
         }
 
-        private void InitializeTextBoxes()
+        /// <remarks>
+        /// TODO: Implement logic to allow user input for cipher parameters.
+        /// </remarks>
+        private void RijndaelWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.OutputTextBox.IsReadOnly = true;
-            this.PassphraseTextBox.Text = "foobar";
-            this.SaltTextBox.Text = "NaCl";
-            this.HashAlgorithmTextBox.Text = "SHA1";
-            this.IterationsTextBox.Text = "1";
-            this.VectorTextBox.Text = "0110111001110100";
-            this.KeySizeTextBox.Text = "128";
-
+            this.PassphraseTextBox.Text = cipher.Passphrase;
+            this.SaltTextBox.Text = cipher.Salt;
+            this.HashNameTextBox.Text = cipher.HashName;
+            this.IterationCountTextBox.Text = Convert.ToString(cipher.IterationCount);
+            this.InitVectorTextBox.Text = cipher.InitVector;
+            this.KeySizeTextBox.Text = Convert.ToString(cipher.KeySize);
         }
 
         private void EncryptDecryptButton_Click(object sender, RoutedEventArgs e)
@@ -57,37 +61,18 @@ namespace Dotnet.Samples.Rijndael
             {
                 if (this.EncryptDecryptButton.Content.Equals("Encrypt"))
                 {
-                    this.SetTextBoxesReadOnly(true);
 
-                    Cipher aes = new Cipher();
-
-                    this.OutputTextBox.Text = aes.Encrypt(this.InputTextBox.Text,
-                                                          this.PassphraseTextBox.Text,
-                                                          this.SaltTextBox.Text,
-                                                          this.HashAlgorithmTextBox.Text,
-                                                          Convert.ToInt32(this.IterationsTextBox.Text),
-                                                          this.VectorTextBox.Text,
-                                                          Convert.ToInt32(this.KeySizeTextBox.Text)
-                                                          );
-
+                    this.OutputTextBox.Text = cipher.Encrypt(this.InputTextBox.Text);
+                    this.InputTextBox.IsReadOnly = true;
+                    this.InputTextBox.Background = new SolidColorBrush(Colors.WhiteSmoke);
                     this.EncryptDecryptButton.Content = "Decrypt";
                 }
                 else
                 {
-                    Cipher aes = new Cipher();
-
-                    this.OutputTextBox.Text = aes.Decrypt(this.OutputTextBox.Text,
-                                                            this.PassphraseTextBox.Text,
-                                                            this.SaltTextBox.Text,
-                                                            this.HashAlgorithmTextBox.Text,
-                                                            Convert.ToInt32(this.IterationsTextBox.Text),
-                                                            this.VectorTextBox.Text,
-                                                            Convert.ToInt32(this.KeySizeTextBox.Text)
-                                                            );
-
+                    this.OutputTextBox.Text = cipher.Decrypt(this.OutputTextBox.Text);
+                    this.InputTextBox.IsReadOnly = false;
+                    this.InputTextBox.Background = new SolidColorBrush(Colors.White);
                     this.EncryptDecryptButton.Content = "Encrypt";
-
-                    this.SetTextBoxesReadOnly(false);
                 }
             }
             catch (Exception error)
@@ -96,25 +81,9 @@ namespace Dotnet.Samples.Rijndael
             }
         }
 
-        private void SetTextBoxesReadOnly(bool value)
-        {
-            this.InputTextBox.IsReadOnly = value;
-            this.PassphraseTextBox.IsReadOnly = value;
-            this.SaltTextBox.IsReadOnly = value;
-            this.HashAlgorithmTextBox.IsReadOnly = value;
-            this.IterationsTextBox.IsReadOnly = value;
-            this.VectorTextBox.IsReadOnly = value;
-            this.KeySizeTextBox.IsReadOnly = value;
-        }
-
         private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.OutputTextBox.Text = String.Empty;
-        }
-
-        private void AesWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

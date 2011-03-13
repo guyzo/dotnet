@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Dotnet.Samples.Rijndael.src {
+namespace Dotnet.Samples.Rijndael {
     using System;
     
     
