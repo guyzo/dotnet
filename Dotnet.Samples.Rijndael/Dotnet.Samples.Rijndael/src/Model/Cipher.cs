@@ -27,34 +27,52 @@ namespace Dotnet.Samples.Rijndael
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
+
     #endregion
 
-    public class Cipher
+    sealed class Cipher
     {
+        #region Properties
+        /// <remarks>
+        /// Refactored implementing the Model-View-ViewModel pattern.
+        /// </remarks>
+        internal string Plaintext { get; set; }
+        internal string Ciphertext { get; set; }
         internal string Passphrase { get; set; }
         internal string Salt { get; set; }
         internal string HashName { get; set; }
         internal int IterationCount { get; set; }
         internal string InitVector { get; set; }
         internal int KeySize { get; set; }
+        #endregion
 
-        public Cipher(string passphrase = "foobar", string salt = "NaCl", string hashName = "SHA1", int iterationCount = 1, string initVector = "0110111001110100", int keySize = 128)
+        #region Constructors
+        /// <remarks>
+        /// Refactored implementing the Model-View-ViewModel pattern.
+        /// </remarks>
+        public Cipher()
         {
-            this.Passphrase = passphrase;
-            this.Salt = salt;
-            this.HashName = hashName;
-            this.IterationCount = iterationCount;
-            this.InitVector = initVector;
-            this.KeySize = keySize;
+
         }
+        //public Cipher(string passphrase = "foobar", string salt = "NaCl", string hashName = "SHA1", int iterationCount = 1, string initVector = "0110111001110100", int keySize = 128)
+        //{
+        //    this.Passphrase = passphrase;
+        //    this.Salt = salt;
+        //    this.HashName = hashName;
+        //    this.IterationCount = iterationCount;
+        //    this.InitVector = initVector;
+        //    this.KeySize = keySize;
+        //}
+        #endregion
 
-        public string Encrypt(string plaintext)
+        #region Methods
+        public string Encrypt()
         {
-            byte[] saltData = Encoding.ASCII.GetBytes(this.Salt);
-            byte[] plaintextData = Encoding.UTF8.GetBytes(plaintext);
-            PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(this.Passphrase, saltData, this.HashName, this.IterationCount);
-            byte[] keyData = derivedPassword.GetBytes(this.KeySize / 8);
-            byte[] vectorData = Encoding.ASCII.GetBytes(this.InitVector);
+            byte[] saltData = Encoding.ASCII.GetBytes(Salt);
+            byte[] plaintextData = Encoding.UTF8.GetBytes(Plaintext);
+            PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(Passphrase, saltData, HashName, IterationCount);
+            byte[] keyData = derivedPassword.GetBytes(KeySize / 8);
+            byte[] vectorData = Encoding.ASCII.GetBytes(InitVector);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
             ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyData, vectorData);
@@ -65,30 +83,33 @@ namespace Dotnet.Samples.Rijndael
                     transformer.Write(plaintextData, 0, plaintextData.Length);
                     transformer.FlushFinalBlock();
                     byte[] ciphertextData = persistence.ToArray();
+
                     return Convert.ToBase64String(ciphertextData);
                 }
             }
         }
 
-        public string Decrypt(string ciphertext)
+        public string Decrypt()
         {
-            byte[] cyphertextData = Convert.FromBase64String(ciphertext);
-            byte[] saltData = Encoding.ASCII.GetBytes(this.Salt);
-            PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(this.Passphrase, saltData, this.HashName, this.IterationCount);
-            byte[] keyData = derivedPassword.GetBytes(this.KeySize / 8);
-            byte[] vectorData = Encoding.ASCII.GetBytes(this.InitVector);
+            byte[] ciphertextData = Convert.FromBase64String(Ciphertext);
+            byte[] saltData = Encoding.ASCII.GetBytes(Salt);
+            PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(Passphrase, saltData, HashName, IterationCount);
+            byte[] keyData = derivedPassword.GetBytes(KeySize / 8);
+            byte[] vectorData = Encoding.ASCII.GetBytes(InitVector);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
             ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyData, vectorData);
-            using (MemoryStream persistence = new MemoryStream(cyphertextData))
+            using (MemoryStream persistence = new MemoryStream(ciphertextData))
             {
                 using (CryptoStream transformer = new CryptoStream(persistence, decryptor, CryptoStreamMode.Read))
                 {
-                    byte[] plaintextData = new byte[cyphertextData.Length];
+                    byte[] plaintextData = new byte[ciphertextData.Length];
                     int plaintextSize = transformer.Read(plaintextData, 0, plaintextData.Length);
+
                     return Encoding.UTF8.GetString(plaintextData, 0, plaintextSize);
                 }
             }
         }
+        #endregion
     }
 }

@@ -56,17 +56,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="src\Win.xaml">
+    <Page Include="src\View\CipherView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="src\Aes.cs" />
+    <Compile Include="src\Model\Cipher.cs" />
+    <Compile Include="src\ViewModel\CipherCommand.cs" />
+    <Compile Include="src\ViewModel\CipherViewModel.cs" />
     <Compile Include="src\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\Win.xaml.cs">
-      <DependentUpon>Win.xaml</DependentUpon>
+    <Compile Include="src\ViewModel\ViewModel.cs" />
+    <Compile Include="src\View\CipherView.xaml.cs">
+      <DependentUpon>CipherView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -88,7 +91,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
