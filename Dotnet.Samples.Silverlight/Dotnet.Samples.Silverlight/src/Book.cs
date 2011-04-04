@@ -41,7 +41,7 @@ namespace Dotnet.Samples.Silverlight
         public bool InStock { get; set; }
         #endregion
 
-        #region Constructor
+        #region Constructors
         public Book(string isbn10, string title, string author, string publisher, DateTime published, string isbn13 = "N/A", string collaborator = "N/A", int? pages = null, bool instock = true)
         {
             this.Isbn10 = isbn10;
@@ -56,22 +56,5 @@ namespace Dotnet.Samples.Silverlight
         }
         #endregion
     }
-
-    #region Extensions
-    public static class BookExtensions
-    {
-        public static List<Book> AddBooks(this List<Book> books)
-        {
-            books.Add(new Book("0385418868", "The Power of Myth", "Joseph Campbell", "Anchor", new DateTime(1991, 6, 1), collaborator: "Bill Moyers", pages: 293));
-            books.Add(new Book("1577315936", "The Hero with a Thousand Faces", "Joseph Campbell", "New World Library", new DateTime(2008, 7, 28), pages: 432));
-            books.Add(new Book("1577312023", "Thou Art That", "Joseph Campbell", "New World Library", new DateTime(2001, 10, 10), pages: 192));
-            books.Add(new Book("1577312090", "The Inner Reaches of Outer Space", "Joseph Campbell", "New World Library", new DateTime(2002, 2, 9), pages: 160));
-            books.Add(new Book("1577314034", "Myths of Light", "Joseph Campbell", "New World Library", new DateTime(2003, 5, 1), pages: 224));
-            books.Add(new Book("1577314719", "Pathways to Bliss", "Joseph Campbell", "New World Library", new DateTime(2004, 10, 26), pages: 224));
-
-            return books;
-        }
-    }
-    #endregion
 }
 

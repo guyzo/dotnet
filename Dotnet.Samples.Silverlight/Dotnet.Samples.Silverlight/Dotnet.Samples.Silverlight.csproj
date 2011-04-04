@@ -81,7 +81,6 @@
     <Compile Include="src\Gui.xaml.cs">
       <DependentUpon>Gui.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="src\App.xaml">
