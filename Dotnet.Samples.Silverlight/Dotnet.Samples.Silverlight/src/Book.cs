@@ -34,7 +34,6 @@ namespace Dotnet.Samples.Silverlight
         public string Isbn13 { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
-        public string Collaborator { get; set; }
         public string Publisher { get; set; }
         public DateTime Published { get; set; }
         public int? Pages { get; set; }
@@ -42,13 +41,12 @@ namespace Dotnet.Samples.Silverlight
         #endregion
 
         #region Constructors
-        public Book(string isbn10, string title, string author, string publisher, DateTime published, string isbn13 = "N/A", string collaborator = "N/A", int? pages = null, bool instock = true)
+        public Book(string isbn10, string title, string author, string publisher, DateTime published, string isbn13 = "N/A", int? pages = null, bool instock = true)
         {
             this.Isbn10 = isbn10;
             this.Isbn13 = isbn13;
             this.Title = title;
             this.Author = author;
-            this.Collaborator = collaborator;
             this.Publisher = publisher;
             this.Published = published;
             this.Pages = pages;
