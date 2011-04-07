@@ -8,31 +8,33 @@
              d:DesignWidth="1280"
              d:DesignHeight="800">
     <Grid x:Name="RootGrid" Width="Auto" Height="Auto">
-        <Grid Name="ContainerGrid" Width="800" Height="600">
+        <Grid Name="ContainerGrid" Width="800"  Height="600">
             <Grid.RowDefinitions>
-                <RowDefinition x:Name="ContainerGridUpperRow" Height="*"/>
-                <RowDefinition x:Name="ContainerGridLowerRow" Height="Auto"/>
+                <RowDefinition x:Name="ContainerGridUpperRow" Height="*" />
+                <RowDefinition x:Name="ContainerGridLowerRow" Height="Auto" />
             </Grid.RowDefinitions>
-            <sdk:DataGrid x:Name="BooksDataGrid" DataContext="books" IsReadOnly="True" Width="Auto" Height="Auto" Margin="8" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" CanUserSortColumns="True">
+            <sdk:DataGrid Grid.Row="0" x:Name="BooksDataGrid" DataContext="books" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" CanUserSortColumns="True" IsReadOnly="True" Width="Auto" Height="Auto" Margin="8">
                 <sdk:DataGrid.Columns>
-                    <sdk:DataGridTextColumn x:Name="BooksDataGridIsbn10Column" Header="ISBN-10" Width="SizeToCells" Binding="{Binding Isbn10}" />
-                    <sdk:DataGridTextColumn x:Name="BooksDataGridTitleColumn" Header="Title" Binding="{Binding Title}">
+                    <sdk:DataGridTextColumn x:Name="BooksDataGridIsbn10Column" Header="ISBN" Binding="{Binding Isbn10}" />
+                    <sdk:DataGridTextColumn x:Name="BooksDataGridTitleColumn" Header="Title" Binding="{Binding Title}" />
+                    <!--
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="TextWrapping" Value="Wrap"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn  x:Name="BooksDataGridAuthorColumn" Header="Author" Width="SizeToCells" Binding="{Binding Author}" />
-                    <sdk:DataGridTextColumn  x:Name="BooksDataGridPublisherColumn" Header="Publisher" Width="SizeToCells" Binding="{Binding Publisher}" />
-                    <sdk:DataGridTemplateColumn  x:Name="BooksDataGridPublishedColumn" Header="Published" Width="SizeToCells" >
+                    -->
+                    <sdk:DataGridTextColumn  x:Name="BooksDataGridAuthorColumn" Header="Author" Binding="{Binding Author}" />
+                    <sdk:DataGridTextColumn  x:Name="BooksDataGridPublisherColumn" Header="Publisher" Binding="{Binding Publisher}" />
+                    <sdk:DataGridTemplateColumn  x:Name="BooksDataGridPublishedColumn" Header="Published">
                         <sdk:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <sdk:DatePicker IsEnabled="False" UseLayoutRounding="True" SelectedDate="{Binding Published}" SelectedDateFormat="Short" />
                             </DataTemplate>
                         </sdk:DataGridTemplateColumn.CellTemplate>
                     </sdk:DataGridTemplateColumn>
-                    <sdk:DataGridCheckBoxColumn x:Name="BooksDataGridInStockColumn" Header="In Stock" Width="SizeToHeader" Binding="{Binding InStock}" />
+                    <sdk:DataGridCheckBoxColumn x:Name="BooksDataGridInStockColumn" Header="In Stock" Width="*" Binding="{Binding InStock}" />
                 </sdk:DataGrid.Columns>
             </sdk:DataGrid>
             <Grid Name="BookDetailsGrid" Grid.Row="1" Width="Auto" Height="Auto" Margin="0,8,0,8" ShowGridLines="True">
