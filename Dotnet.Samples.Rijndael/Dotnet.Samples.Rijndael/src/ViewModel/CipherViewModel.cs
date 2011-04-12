@@ -80,7 +80,7 @@ namespace Dotnet.Samples.Rijndael
             }
             set
             {
-                this._cipher.Salt = value;
+                this._cipher.HashName = value;
                 OnPropertyChanged("HashName");
             }
         }
@@ -243,7 +243,7 @@ namespace Dotnet.Samples.Rijndael
                             error = "Hash Name cannot be blank.";
                         }
 
-                        Regex regex = new Regex("MD5|SHA1", RegexOptions.Compiled);
+                        Regex regex = new Regex("(MD5)|(SHA1)", RegexOptions.Compiled);
 
                         if (!regex.IsMatch(this.HashName)) // arbitrary business rule
                         {
