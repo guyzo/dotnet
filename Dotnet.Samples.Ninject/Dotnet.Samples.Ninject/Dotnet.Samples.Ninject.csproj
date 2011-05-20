@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -51,11 +52,6 @@
     <Compile Include="src\IMaterial.cs" />
     <Compile Include="src\ISurface.cs" />
     <Compile Include="src\Program.cs" />
-    <Compile Include="src\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cfg\app.config" />
-    <None Include="cfg\packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

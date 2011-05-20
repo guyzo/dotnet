@@ -27,23 +27,22 @@ namespace Dotnet.Samples.Ninject
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             try
             {
                 IKernel kernel = new StandardKernel(new PainterModule());
                 Artist artist = kernel.Get<Artist>();
                 artist.Name = "Peter Gibbons";
-
                 Console.WriteLine(artist.Name + artist.Paint());
             }
             catch (Exception error)
             {
                 Console.WriteLine(error.Message);
-                // throw;
             }
             finally
             {
+                Console.WriteLine("Press any key to continue . . .");
                 Console.ReadKey(true);
             }
         }

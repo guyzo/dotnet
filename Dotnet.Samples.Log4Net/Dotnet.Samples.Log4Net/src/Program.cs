@@ -24,24 +24,27 @@ namespace Dotnet.Samples.Log4Net
 {
     #region References
     using System;
+    using System.IO;
+    using System.Reflection;
     using System.Xml;
     using log4net;
+    using System.Diagnostics;
     #endregion
 
     class Program
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
-        static void Main(string[] args)
+        static void Main()
         {
             try
             {
-                XmlDocument xml = new XmlDocument();
-                xml.Load("cfg/Log4Net.config");
-                XmlElement cfg = xml.DocumentElement;
-                log4net.Config.XmlConfigurator.Configure(cfg);
-
-                string msg = "The quick brown fox jumps over the lazy dog.";
+                var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var cfg = Path.Combine(dir, "cfg");
+                var xml = new XmlDocument();
+                xml.Load(Path.Combine(cfg, "Log4Net.config"));
+                log4net.Config.XmlConfigurator.Configure((XmlElement)xml.DocumentElement);
+                var msg = "The quick brown fox jumps over the lazy dog.";
 
                 if (log.IsDebugEnabled) log.Debug(msg);
                 if (log.IsInfoEnabled) log.Info(msg);
@@ -51,7 +54,7 @@ namespace Dotnet.Samples.Log4Net
             }
             catch (Exception err)
             {
-                Console.WriteLine("Exception caught: " + err.Message);
+                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
             }
             finally
             {
