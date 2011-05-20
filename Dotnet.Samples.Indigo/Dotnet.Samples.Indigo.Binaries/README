@@ -1,0 +1,6 @@
+[NOTE] Make sure you run Dotnet.Samples.Indigo.Host via 'Run as administrator'.
+
+[NOTE] Every time you modify the Service Application or Library you might have
+       to regenerate the Client code (CatalogServiceImplementation.cs and
+	   output.config) running the following tool at Visual Studio Command Prompt
+	   "svcutil.exe http://localhost:8000/CatalogServiceImplementation.svc?wsdl"
