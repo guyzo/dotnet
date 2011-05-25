@@ -32,15 +32,16 @@ namespace Dotnet.Samples.LinqToXml
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             try
             {
                 // Sample XML file (books.xml) is available to be downloaded from:
                 // http://msdn.microsoft.com/en-us/library/ms762271%28VS.85%29.aspx
 
-                Uri uri = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase) + "/res/books.xml");
-                XDocument xml = XDocument.Load(uri.LocalPath);
+                var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+                var res = Path.Combine(Path.Combine(dir, "res"), "books.xml");
+                var xml = XDocument.Load(res);
                 
                 var books = from b in xml.Descendants("book")
                             select new
@@ -53,24 +54,29 @@ namespace Dotnet.Samples.LinqToXml
                                 Published = b.Element("publish_date").Value
                             };
 
-                Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
-                Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,-10}", "Title", "Author", "Published", "Price");
-                Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
-                
-                foreach (var book in books)
+                // INFO: notice that books is IEnumerable<anonymous>
+                if (books != null)
                 {
-                    Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", book.Title, book.Author, book.Published, book.Price);
-                }
+                    Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
+                    Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,-10}", "Title", "Author", "Published", "Price");
+                    Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
+                
+                    foreach (var book in books)
+                    {
+                        Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", book.Title, book.Author, book.Published, book.Price);
+                    }
 
-                Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
+                    Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
+                }
             }
-            catch (Exception error)
+            catch (Exception err)
             {
-                Console.WriteLine("Error: " + error.Message);
+                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
             }
             finally
             {
-                Console.WriteLine("\nPress any key to continue . . .");
+                Console.Write(Environment.NewLine);
+                Console.WriteLine("Press any key to continue . . .");
                 Console.ReadKey(true);
             }
         }

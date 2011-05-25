@@ -24,43 +24,59 @@ namespace Dotnet.Samples.LinqToSql
 {
     #region References
     using System;
+    using System.Data.SqlClient;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     #endregion
 
-    /// <summary>
-    /// Interaction logic for Program
-    /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             try
             {
-                // Northwind and pubs sample databases are available to downloaded from:
-                // http://www.microsoft.com/downloads/details.aspx?familyid=06616212-0356-46a0-8da2-eebc53a68034&displaylang=en
+                ///<remarks>
+                /// Northwind sample database is available to download from http://goo.gl/QCrEk
+                /// Make sure that SQL Server service is running and Northwind.mdf is attached.
+                /// (Server Explorer -> Data Connections -> Northwind.mdf -> [Right-click] -> Refresh)
+                ///</remarks>
 
-                // Make sure that SQL Server service is running and Northwind.mdf is plugged
-                // (Server Explorer -> Data Connections -> Northwind.mdf -> [Right-click] -> Refresh)
+                var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+                var mdf = Path.Combine(Path.Combine(dir, "res"), "Northwind.mdf");
+                var con = new SqlConnectionStringBuilder();
+                con.DataSource = @".\SQLEXPRESS";
+                con.AttachDBFilename = mdf;
 
-                using (NorthwindDataContext data = new NorthwindDataContext())
+                using (var data = new NorthwindDataContext(con.ConnectionString))
                 {
-                    var query = from c in data.Customers where c.City == "Buenos Aires" select c;
+                    var value = "Buenos Aires";
+                    var query = from q in data.Customers
+                                where q.City == value
+                                select q;
 
-                    Console.WriteLine("-----  ----------------------------------");
-                    Console.WriteLine("Id     Company Name");
-                    Console.WriteLine("-----  ----------------------------------");
-
-                    foreach (var record in query)
+                    if (query != null)
                     {
-                        Console.WriteLine("{0}  {1}", record.CustomerID, record.CompanyName);
-                    }
+                        Console.WriteLine("-----  ----------------------------------");
+                        Console.WriteLine("Id     Company Name");
+                        Console.WriteLine("-----  ----------------------------------");
 
-                    Console.WriteLine("-----  ----------------------------------");
+                        foreach (var record in query)
+                        {
+                            Console.WriteLine("{0}  {1}", record.CustomerID, record.CompanyName);
+                        }
+
+                        Console.WriteLine("-----  ----------------------------------");
+                    }
+                    else
+                    {
+                        Console.WriteLine(String.Format("Your query - {0} - did not match any records.", value));
+                    }
                 }
             }
-            catch (Exception error)
+            catch (Exception err)
             {
-                Console.WriteLine("Error: " + error.Message);
+                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
             }
             finally
             {

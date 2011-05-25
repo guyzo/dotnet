@@ -11,7 +11,8 @@
     <RootNamespace>Dotnet.Samples.LinqToSql</RootNamespace>
     <AssemblyName>Dotnet.Samples.LinqToSql</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -65,12 +66,6 @@
       <DependentUpon>Northwind.dbml</DependentUpon>
     </Compile>
     <Compile Include="src\Program.cs" />
-    <Compile Include="src\AssemblyInfo.cs" />
-    <Compile Include="src\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -121,10 +116,6 @@
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Northwind.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="src\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
