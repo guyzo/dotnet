@@ -30,7 +30,7 @@ namespace Dotnet.Samples.Parallelism
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             try
             {
@@ -40,50 +40,45 @@ namespace Dotnet.Samples.Parallelism
                 /// http://stackoverflow.com/questions/5195486/
                 /// </remarks>
 
-                RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
-                byte[] buffer = new byte[4];
-
                 /// <remarks>
-                /// Creates a random number of iterations that will end being
-                /// the amount of parallel tasks (not less than 2 -- up to 9)
+                /// Creates a random number of iterations that will end being 
+                /// the amount of parallel tasks (not less than 2 -- up to 9).
                 /// </remarks>
+                var random = new RNGCryptoServiceProvider();
+                byte[] buffer = new byte[4];
                 random.GetBytes(buffer);
-                int iterations = new Random(BitConverter.ToInt32(buffer, 0)).Next(2, 9);
+                var iterations = new Random(BitConverter.ToInt32(buffer, 0)).Next(2, 9);
 
                 /// <remarks>
                 /// Creates a helper collection with number/name pairs to
-                /// populate the list of parallel tasks
+                /// populate the list of parallel tasks.
                 /// </remarks>
-                Dictionary<int, string> items = new Dictionary<int, string>();
+                var items = new Dictionary<int, string>();
                 Console.WriteLine("Creating " + iterations + " Parallel Tasks . . .");
                 Console.Write(Environment.NewLine);
 
-                for (int i = 1; i < iterations + 1; i++) // cosmetic +1 avoids "Task 0"
+                for (int i = 1; i < iterations + 1; i++) // NOTE: Cosmetic +1 avoids "Task 0"
                 {
                     items.Add(i, String.Format("Task {0}", i));
                 }
 
-                List<Task> tasks = new List<Task>();
+                var tasks = new List<Task>();
 
-                // TODO: I guess we might use a Parallel.Foreach() here
-                foreach (var item in items)
+                foreach (var item in items) // TODO: I guess we might use a Parallel.Foreach() here
                 {
                     /// <remarks>
-                    ///  Creates a random interval (between 1 to 9 seconds)
-                    ///  to pause the current thread at
+                    ///  Creates a random interval (between 1 to 9 seconds) to 
+                    ///  pause the current thread at.
                     /// </remarks>
                     random.GetBytes(buffer);
                     int interval = new Random(BitConverter.ToInt32(buffer, 0)).Next(1000, 9000);
 
-                    /// <remarks>
-                    /// NOTE: The 'temp' variable is just a console helper
-                    /// </remarks>
-                    var temp = item;
+                    var temp = item; // NOTE: The 'temp' variable is just a console helper.
 
                     /// <remarks>
                     /// Creates and starts a new parallel task.
-                    /// NOTE: the 'state' as well as the returned value
-                    /// could be any type of object.
+                    /// The 'state' as well as the returned value could be any
+                    /// type of object.
                     /// </remarks>
                     var task = Task.Factory.StartNew(state =>
                     {
@@ -94,7 +89,7 @@ namespace Dotnet.Samples.Parallelism
 
                         /// <remarks>
                         /// Creates a continuation action so each tasks will print
-                        /// its name and return value immediately after completion.  
+                        /// its name and return value immediately after completion.
                         /// </remarks>
                     }, temp.Value).ContinueWith(t => Console.WriteLine(String.Format("[{0}] {1} completed. Result: {2}", DateTime.Now.TimeOfDay, t.AsyncState, t.Result)));
 
@@ -102,13 +97,13 @@ namespace Dotnet.Samples.Parallelism
                 }
 
                 /// <remarks>
-                /// Waits for all running tasks to complete
+                /// Waits for all running tasks to complete.
                 /// </remarks>
                 Task.WaitAll(tasks.ToArray());
             }
             catch (Exception error)
             {
-                Console.WriteLine(String.Format("EXCEPTION: {0}", error.Message));
+                Console.WriteLine(String.Format("Exception caught: {0}", error.Message));
             }
             finally
             {
