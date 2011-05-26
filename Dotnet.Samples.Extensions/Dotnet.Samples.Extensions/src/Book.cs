@@ -25,19 +25,27 @@ namespace Dotnet.Samples.Extensions
     #region References
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.Xml.Serialization;
     #endregion
 
     /// <summary>
     /// A simple serializable class that represents a book.
     /// </summary>
-    [Serializable]
+    [DataContract, Serializable, XmlRoot("book")]
     public class Book
     {
+        [DataMember, XmlAttribute("isbn")]
         public string Isbn { get; set; }
+        [DataMember, XmlAttribute("title")]
         public string Title { get; set; }
+        [DataMember, XmlAttribute("author")]
         public string Author { get; set; }
+        [DataMember, XmlAttribute("publisher")]
         public string Publisher { get; set; }
-        public DateTime? Publication { get; set; }
+        [DataMember, XmlAttribute("publication")]
+        public DateTime Publication { get; set; }
+        [DataMember, XmlAttribute("pages")]
         public int Pages { get; set; }
 
         public Book()
@@ -49,10 +57,11 @@ namespace Dotnet.Samples.Extensions
     /// <summary>
     /// A simple serializable class that represents a catalog of books.
     /// </summary>
-    [Serializable]
+    [DataContract, Serializable, XmlRoot("books"), XmlType("books")]
     public class Catalog
     {
         private List<Book> books = new List<Book>();
+        [DataMember, XmlElement("book")]
         public List<Book> Books { get { return books; } }
     }
 }

@@ -34,10 +34,8 @@ namespace Dotnet.Samples.Extensions
         {
             try
             {
-                // Sample serializable data
-
+                // serializable object
                 Catalog catalog = new Catalog();
-
                 catalog.Books.Add(
                     new Book()
                     {
@@ -50,8 +48,8 @@ namespace Dotnet.Samples.Extensions
                     }
                 );
 
-                // XML serialization sample
-
+                // XML serialization
+                Console.BackgroundColor = ConsoleColor.DarkCyan;
                 using (MemoryStream persistence = new MemoryStream())
                 {
                     persistence.SerializeToXml<Catalog>(catalog);
@@ -60,23 +58,24 @@ namespace Dotnet.Samples.Extensions
 
                 Console.WriteLine(Environment.NewLine);
 
-                // JSON serialization sample
-
+                // JSON serialization
+                Console.BackgroundColor = ConsoleColor.DarkMagenta;
                 using (MemoryStream persistence = new MemoryStream())
                 {
                     persistence.SerializeToJson<Catalog>(catalog);
                     Console.WriteLine(Encoding.Default.GetString(persistence.ToArray()));
                 }
 
+                Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine(Environment.NewLine);
-            
             }
             catch (Exception error)
             {
-                Console.WriteLine("Error: " + error.Message);
+                Console.WriteLine(String.Format("Exception caught: {0}", error.Message));
             }
             finally
             {
+                Console.Write(Environment.NewLine);
                 Console.WriteLine("Press any key to continue. . .");
                 Console.ReadKey(true);
             }
