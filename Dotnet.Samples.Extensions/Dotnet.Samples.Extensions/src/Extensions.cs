@@ -34,10 +34,10 @@ namespace Dotnet.Samples.Extensions
     public static class Extensions
     {
         /// <summary>
-        /// Serializes the specified System.Object into XML using the System.IO.Stream that invoked this method.
+        /// Serializes the contents of a System.Object to XML using this System.IO.Stream.
         /// </summary>
         /// <typeparam name="T">The type of the System.Object.</typeparam>
-        /// <param name="target">The System.IO.Stream used to write the XML document.</param>
+        /// <param name="target">The System.IO.Stream used to write the XML data.</param>
         /// <param name="source">The System.Object to serialize.</param>
         public static void SerializeToXml<T>(this Stream target, T source)
         {
@@ -46,10 +46,10 @@ namespace Dotnet.Samples.Extensions
         }
 
         /// <summary>
-        /// Deserializes XML data as the specified System.Object using the System.IO.Stream that invoked this method.
+        /// Deserializes the XML data contained on this System.IO.Stream to a System.Object.
         /// </summary>
         /// <typeparam name="T">The type of the System.Object.</typeparam>
-        /// <param name="source">The System.IO.Stream that contains the XML document to deserialize.</param>
+        /// <param name="source">The System.IO.Stream that contains the XML data to deserialize.</param>
         public static T DeserializeFromXml<T>(this Stream source)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
@@ -57,7 +57,7 @@ namespace Dotnet.Samples.Extensions
         }
 
         /// <summary>
-        /// Serializes the specified System.Object into JSON using the System.IO.Stream that invoked this method.
+        /// Serializes the contents of a System.Object to JSON using this System.IO.Stream.
         /// </summary>
         /// <typeparam name="T">The type of the System.Object.</typeparam>
         /// <param name="target">The System.IO.Stream used to write the JSON data.</param>
@@ -69,7 +69,7 @@ namespace Dotnet.Samples.Extensions
         }
 
         /// <summary>
-        /// Deserializes JSON data as the specified System.Object using the System.IO.Stream that invoked this method.
+        /// Deserializes the JSON data contained on this System.IO.Stream to a System.Object.
         /// </summary>
         /// /// <typeparam name="T">The type of the System.Object.</typeparam>
         /// <param name="source">The System.IO.Stream that contains the JSON data to deserialize.</param>
@@ -78,5 +78,7 @@ namespace Dotnet.Samples.Extensions
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(T));
             return (T)jsonSerializer.ReadObject(source);
         }
+
+        // TODO: Implement extension method for generic SOAP serialization.
     }
 }
