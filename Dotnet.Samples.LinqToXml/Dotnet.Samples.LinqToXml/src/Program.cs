@@ -57,17 +57,41 @@ namespace Dotnet.Samples.LinqToXml
                 // INFO: notice that books is IEnumerable<anonymous>
                 if (books != null)
                 {
+                    Console.WriteLine("1. Created by loading the XML file, displaying first 3 elements:");
+                    Console.Write(Environment.NewLine);
                     Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
                     Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,-10}", "Title", "Author", "Published", "Price");
                     Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
-                
-                    foreach (var book in books)
+
+                    // INFO: Just taking first 3 elements to fit default console window size (80x25)
+                    foreach (var book in books.Take(3))
                     {
                         Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", book.Title, book.Author, book.Published, book.Price);
                     }
 
                     Console.WriteLine("{0,-25} {1,-25} {2,-15} {3,10}", "-------------------------", "-------------------------", "---------------", "----------");
                 }
+
+                Console.Write(Environment.NewLine);
+                Console.WriteLine("2. Made taking advantage of LINQ to XML functional construction:");
+
+                XDocument doc = new XDocument(
+                    new XDeclaration("1.0", "UTF-8", "yes"),
+                    new XElement("catalog",
+                        new XElement("book",
+                            new XAttribute("id", "bk999"),
+                            new XElement("author", "Doe, John"),
+                            new XElement("title", "Lorem Ipsum"),
+                            new XElement("genre", "Miscellaneous"),
+                            new XElement("price", "42"),
+                            new XElement("publish_date", DateTime.Now.ToShortDateString()),
+                            new XElement("description", "The quick brown fox jumps over the lazy dog.")
+                        )
+                    )
+                );
+
+                Console.Write(Environment.NewLine);
+                Console.WriteLine(doc.ToString());
             }
             catch (Exception err)
             {
