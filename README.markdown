@@ -4,7 +4,7 @@ Microsoft(R) .NET(TM) sample projects showcasing a variety of technologies, fram
 
 Credits
 -------
-All samples have been coded in C# using [Visual Studio 2010 Express](http://www.microsoft.com/visualstudio/en-us/products/2010-editions/express-iso) mostly targeting [.NET Framework 4](http://www.microsoft.com/net/).
+All samples have been coded in C# using [Visual Studio 2010 Express](http://www.microsoft.com/visualstudio/en-us/products/2010-editions/express-iso) mostly targeting [.NET Framework 4](http://www.microsoft.com/net/) and following ["Coding Standard: C#" - Philips Medical Systems](http://www.tiobe.com/content/paperinfo/gemrcsharpcs.pdf) conventions.
 
 Terms
 -----
