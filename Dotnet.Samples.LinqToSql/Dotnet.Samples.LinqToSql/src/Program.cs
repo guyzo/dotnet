@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright (c) 2010 Nano Taboada, http://openid.nanotaboada.com.ar 
+// Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,11 @@ namespace Dotnet.Samples.LinqToSql
 {
     #region References
     using System;
-    using System.Data.SqlClient;
+    using System.Data.SqlServerCe;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     #endregion
 
     class Program
@@ -37,50 +38,61 @@ namespace Dotnet.Samples.LinqToSql
             try
             {
                 ///<remarks>
-                /// Northwind sample database is available to download from http://goo.gl/QCrEk
-                /// Make sure that SQL Server service is running and Northwind.mdf is attached.
-                /// (Server Explorer -> Data Connections -> Northwind.mdf -> [Right-click] -> Refresh)
+                /// If you're using Visual Studio 2010 SP1 the sample database
+                /// included with this solution should also be available at: 
+                /// %PROGRAMFILES%\Microsoft SQL Server Compact Edition\v4.0\Samples
                 ///</remarks>
 
-                var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
-                var mdf = Path.Combine(Path.Combine(dir, "res"), "Northwind.mdf");
-                var con = new SqlConnectionStringBuilder();
-                con.DataSource = @".\SQLEXPRESS";
-                con.AttachDBFilename = mdf;
+                var res = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "res");
+                var con = new SqlCeConnectionStringBuilder();
+                con.DataSource = Path.Combine(res, "Northwind.sdf");
+                
+                // TODO: Create a complex LINQ expression with data from all tables.
+
+                var msg = "Retrieving the amount of customers and orders per city in the USA:";
 
                 using (var data = new NorthwindDataContext(con.ConnectionString))
                 {
-                    var value = "Buenos Aires";
-                    var query = from q in data.Customers
-                                where q.City == value
-                                select q;
+                    var query = from customer in data.Customers
+                                join order in data.Orders on customer.CustomerID equals order.CustomerID
+                                where customer.Country == "USA" 
+                                group customer by customer.City into customerPerCity
+                                select new
+                                {
+                                    City = customerPerCity.Key,
+                                    CustomerCount = customerPerCity.Count(),
+                                    OrderCount = customerPerCity.Sum(c => c.Orders.Count)
+                                };
 
                     if (query != null)
                     {
-                        Console.WriteLine("-----  ----------------------------------");
-                        Console.WriteLine("Id     Company Name");
-                        Console.WriteLine("-----  ----------------------------------");
-
-                        foreach (var record in query)
+                        var txt = new StringBuilder();
+                        txt.AppendLine(msg);
+                        txt.Append(Environment.NewLine);
+                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "------------------------------------------------------", "-----------", "-----------"));
+                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "City", "Customers", "Orders"));
+                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "------------------------------------------------------", "-----------", "-----------"));
+                        
+                        foreach (var item in query)
                         {
-                            Console.WriteLine("{0}  {1}", record.CustomerID, record.CompanyName);
+                            txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", item.City, item.CustomerCount, item.OrderCount));
                         }
 
-                        Console.WriteLine("-----  ----------------------------------");
+                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "------------------------------------------------------", "-----------", "-----------"));
+                        Console.Write(txt.ToString());
                     }
-                    else
-                    {
-                        Console.WriteLine(String.Format("Your query - {0} - did not match any records.", value));
-                    }
+
                 }
             }
             catch (Exception err)
             {
+                Console.Write(Environment.NewLine);
                 Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
             }
             finally
             {
-                Console.WriteLine("Press any key to continue . . .");
+                Console.Write(Environment.NewLine);
+                Console.Write("Press any key to continue . . .");
                 Console.ReadKey(true);
             }
         }
