@@ -46,17 +46,17 @@ namespace Dotnet.Samples.QuartzNet
                 InitializeScheduler();
                 InitializeConsole();
             }
-            catch (SchedulerException error)
+            catch (SchedulerException err)
             {
-                var message = String.Format("Quartz.NET Scheduler error: {0}", error.Message);
+                var msg = String.Format("Quartz.NET Scheduler error: {0}", err.Message);
 
                 if (log.IsErrorEnabled)
                 {
-                    log.Error(message);
+                    log.Error(msg);
                 }
                 else
                 {
-                    Console.WriteLine(message);
+                    Console.WriteLine(msg);
                 }
 
                 Console.WriteLine("Press any key to continue . . .");

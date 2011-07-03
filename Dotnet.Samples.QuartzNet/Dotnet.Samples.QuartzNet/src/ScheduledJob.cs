@@ -37,32 +37,32 @@ namespace Dotnet.Samples.QuartzNet
         {
         }
 
-        public void Execute(JobExecutionContext context)
+        public void Execute(JobExecutionContext jec)
         {
             try
             {
-                var message = "The quick brown fox jumps over the lazy dog.";
+                var msg = "The quick brown fox jumps over the lazy dog.";
 
                 if (log.IsInfoEnabled)
                 {
-                    log.Info(message);
+                    log.Info(msg);
                 }
                 else
                 {
-                    Console.WriteLine(message);
+                    Console.WriteLine(msg);
                 }
             }
-            catch (JobExecutionException error)
+            catch (JobExecutionException err)
             {
-                var message = String.Format("Quartz.NET Job error: {0}", error.Message);
+                var msg = String.Format("Quartz.NET Job error: {0}", err.Message);
 
                 if (log.IsErrorEnabled)
                 {
-                    log.Error(message);
+                    log.Error(msg);
                 }
                 else
                 {
-                    Console.WriteLine(message);
+                    Console.WriteLine(msg);
                 }
 
                 Console.WriteLine("Press any key to continue . . .");
