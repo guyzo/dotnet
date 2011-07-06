@@ -24,20 +24,44 @@ using NUnit.Framework;
 
 namespace Dotnet.Samples.NUnit
 {
+    /// <remarks>
+    /// Basic rules for placing and naming tests
+    /// 
+    /// - For each class, create at least one class with the name [ClassName]Tests.
+    /// - For each method, create at least one test method with the following name: 
+    ///   [MethodName]_[StateUnderTest]_[ExpectedBehavior].
+    ///
+    /// Source: Osherove, Roy. The Art of Unit Testing. Manning, 2009. 28. Print.
+    /// </remarks
+
     [TestFixture]
-    public class ProgramTest
+    public class ProgramTests
     {
+        public Program program { get; private set; }
+
+        [SetUp]
+        public void Setup()
+        {
+            this.program = new Program();
+        }
+
         [Test]
         public void GetPangram_ReturnValueIsNotNullOrEmpty_ReturnsTrue()
         {
-            Assert.IsNotNullOrEmpty(new Program().GetPangram());
+            Assert.IsNotNullOrEmpty(program.GetPangram());
         }
 
         [Test]
         public void GetPangram_ReturnValueEqualsExpectedString_ReturnsTrue()
         {
             string expected = "The quick brown fox jumps over the lazy dog.";
-            Assert.AreEqual(expected, new Program().GetPangram());
+            Assert.AreEqual(expected, program.GetPangram());
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.program = null;
         }
     }
 }
