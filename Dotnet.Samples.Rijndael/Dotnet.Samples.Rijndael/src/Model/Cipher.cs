@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright (c) 2010 Nano Taboada, http://openid.nanotaboada.com.ar 
+// Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -54,15 +54,6 @@ namespace Dotnet.Samples.Rijndael
         {
 
         }
-        //public Cipher(string passphrase = "foobar", string salt = "NaCl", string hashName = "SHA1", int iterationCount = 1, string initVector = "0110111001110100", int keySize = 128)
-        //{
-        //    this.Passphrase = passphrase;
-        //    this.Salt = salt;
-        //    this.HashName = hashName;
-        //    this.IterationCount = iterationCount;
-        //    this.InitVector = initVector;
-        //    this.KeySize = keySize;
-        //}
         #endregion
 
         #region Methods

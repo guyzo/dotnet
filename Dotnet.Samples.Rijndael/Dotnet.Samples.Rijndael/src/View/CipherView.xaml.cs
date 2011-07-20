@@ -25,62 +25,15 @@ namespace Dotnet.Samples.Rijndael
     #region References
     using System;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
     #endregion
 
-    /// <summary>
-    /// Interaction logic for Win.xaml
-    /// </summary>
     public partial class CipherView : Window
     {
-        /// <remarks>
-        /// Refactored implementing the Model-View-ViewModel pattern.
-        /// </remarks>
+        #region Constructors
         public CipherView()
         {
             this.InitializeComponent();
         }
-
-        //private void RijndaelWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-            //this.PassphraseTextBox.Text = cipher.Passphrase;
-            //this.SaltTextBox.Text = cipher.Salt;
-            //this.HashNameTextBox.Text = cipher.HashName;
-            //this.IterationCountTextBox.Text = Convert.ToString(cipher.IterationCount);
-            //this.InitVectorTextBox.Text = cipher.InitVector;
-            //this.KeySizeTextBox.Text = Convert.ToString(cipher.KeySize);
-        //}
-
-        //private void EncryptDecryptButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (this.EncryptDecryptButton.Content.Equals("Encrypt"))
-        //        {
-
-        //            this.OutputTextBox.Text = cipher.Encrypt(this.InputTextBox.Text);
-        //            this.InputTextBox.IsReadOnly = true;
-        //            this.InputTextBox.Background = new SolidColorBrush(Colors.WhiteSmoke);
-        //            this.EncryptDecryptButton.Content = "Decrypt";
-        //        }
-        //        else
-        //        {
-        //            this.OutputTextBox.Text = cipher.Decrypt(this.OutputTextBox.Text);
-        //            this.InputTextBox.IsReadOnly = false;
-        //            this.InputTextBox.Background = new SolidColorBrush(Colors.White);
-        //            this.EncryptDecryptButton.Content = "Encrypt";
-        //        }
-        //    }
-        //    catch (Exception error)
-        //    {
-        //        MessageBox.Show("Exception caught: " + error.Message);
-        //    }
-        //}
-
-        //private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    this.OutputTextBox.Text = String.Empty;
-        //}
+        #endregion
     }
 }
