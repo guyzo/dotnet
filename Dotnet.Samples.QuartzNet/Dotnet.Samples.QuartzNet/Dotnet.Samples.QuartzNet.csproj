@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Program.cs" />
-    <Compile Include="src\ScheduledJob.cs" />
+    <Compile Include="src\CronJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Common.Logging.dll" />

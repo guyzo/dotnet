@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright (c) 2010 Nano Taboada, http://openid.nanotaboada.com.ar 
+// Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,58 +38,28 @@ namespace Dotnet.Samples.QuartzNet
         {
             try
             {
-                if (log.IsDebugEnabled)
-                {
-                    log.Debug("Apache log4net successfully initialized.");
-                }
+                if (log.IsDebugEnabled) log.Debug("Apache log4net successfully initialized.");
 
-                InitializeScheduler();
-                InitializeConsole();
+                var jobDetail = new JobDetail("SampleJob", "SampleJobGroup", typeof(CronJob));
+                var cronTrigger = new CronTrigger("SampleTrigger", "SampleTriggerGroup", "0/4 * * * * ? *");
+                var schedulerFactory = new StdSchedulerFactory();
+                var scheduler = schedulerFactory.GetScheduler();
+                    scheduler.ScheduleJob(jobDetail, cronTrigger);
+                    scheduler.Start();
+                var msg = String.Format("Starting Quartz.NET cron job ({0})", cronTrigger.CronExpressionString);
+
+                if (!log.IsInfoEnabled) Console.WriteLine(msg);
+                log.Info(msg);
             }
             catch (SchedulerException err)
             {
                 var msg = String.Format("Quartz.NET Scheduler error: {0}", err.Message);
 
-                if (log.IsErrorEnabled)
-                {
-                    log.Error(msg);
-                }
-                else
-                {
-                    Console.WriteLine(msg);
-                }
+                if (!log.IsErrorEnabled) Console.WriteLine(msg);
+                log.Error(msg);
 
                 Console.WriteLine("Press any key to continue . . .");
                 Console.ReadKey(true);
-            }
-        }
-
-        private static void InitializeScheduler()
-        {
-            ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
-            IScheduler scheduler = schedulerFactory.GetScheduler();
-            scheduler.Start();
-            JobDetail jobDetail = new JobDetail("SampleJob", "SampleJobGroup", typeof(ScheduledJob));
-            CronTrigger cronTrigger = new CronTrigger("SampleTrigger", "SampleTriggerGroup", "0/4 * * * * ? *");
-            scheduler.ScheduleJob(jobDetail, cronTrigger);
-        }
-
-        private static void InitializeConsole()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(Environment.NewLine);
-            stringBuilder.AppendLine("Sample of Quartz.NET scheduled job");
-            stringBuilder.AppendLine("----------------------------------");
-            stringBuilder.AppendLine("Trigger will fire every 4 seconds:");
-            stringBuilder.AppendLine("[CronExpression = 0/4 * * * * ? *]");
-
-            if (log.IsInfoEnabled)
-            {
-                log.Info(stringBuilder.ToString());
-            }
-            else
-            {
-                Console.WriteLine(stringBuilder.ToString());
             }
         }
     }

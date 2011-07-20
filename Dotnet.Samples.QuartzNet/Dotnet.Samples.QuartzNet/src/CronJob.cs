@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright (c) 2010 Nano Taboada, http://openid.nanotaboada.com.ar 
+// Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,49 +22,32 @@
 
 namespace Dotnet.Samples.QuartzNet
 {
-
     #region References
     using System;
     using Quartz;
     using Common.Logging;
     #endregion
 
-    public class ScheduledJob : IJob
+    public class CronJob : IJob
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ScheduledJob));
-
-        public ScheduledJob()
-        {
-        }
+        private static readonly ILog log = LogManager.GetLogger(typeof(CronJob));
 
         public void Execute(JobExecutionContext jec)
         {
             try
             {
                 var msg = "The quick brown fox jumps over the lazy dog.";
-
-                if (log.IsInfoEnabled)
-                {
-                    log.Info(msg);
-                }
-                else
-                {
-                    Console.WriteLine(msg);
-                }
+                
+                if (!log.IsInfoEnabled) Console.WriteLine(msg);
+                log.Info(msg);
             }
             catch (JobExecutionException err)
             {
                 var msg = String.Format("Quartz.NET Job error: {0}", err.Message);
 
-                if (log.IsErrorEnabled)
-                {
-                    log.Error(msg);
-                }
-                else
-                {
-                    Console.WriteLine(msg);
-                }
-
+                if (!log.IsErrorEnabled) Console.WriteLine(msg);
+                log.Error(msg);
+                
                 Console.WriteLine("Press any key to continue . . .");
                 Console.ReadKey(true);
             }
