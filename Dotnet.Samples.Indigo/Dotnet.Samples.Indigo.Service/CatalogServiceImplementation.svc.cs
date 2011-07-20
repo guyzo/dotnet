@@ -40,7 +40,7 @@ namespace Dotnet.Samples.Indigo.Service
     {
         public string GetBookByIsbn(string isbn)
         {
-            // [TODO] implement a more interesting book seach here :-)
+            // TODO: Implement a more interesting book search here.
 
             if (isbn == "0123456789")
             {
