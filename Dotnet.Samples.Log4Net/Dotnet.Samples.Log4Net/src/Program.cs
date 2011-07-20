@@ -28,7 +28,7 @@ namespace Dotnet.Samples.Log4Net
     using System.Reflection;
     using System.Xml;
     using log4net;
-    using System.Diagnostics;
+    using log4net.Config;
     #endregion
 
     class Program
@@ -42,9 +42,9 @@ namespace Dotnet.Samples.Log4Net
                 var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var cfg = Path.Combine(dir, "cfg");
                 var xml = new XmlDocument();
-                xml.Load(Path.Combine(cfg, "Log4Net.config"));
-                log4net.Config.XmlConfigurator.Configure((XmlElement)xml.DocumentElement);
+                    xml.Load(Path.Combine(cfg, "Log4Net.config"));
                 var msg = "The quick brown fox jumps over the lazy dog.";
+                XmlConfigurator.Configure((XmlElement)xml.DocumentElement);
 
                 if (log.IsDebugEnabled) log.Debug(msg);
                 if (log.IsInfoEnabled) log.Info(msg);
@@ -54,10 +54,12 @@ namespace Dotnet.Samples.Log4Net
             }
             catch (Exception err)
             {
-                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
+                Console.Write(Environment.NewLine);
+                Console.WriteLine(String.Format("Exception: {0}", err.Message));
             }
             finally
             {
+                Console.Write(Environment.NewLine);
                 Console.WriteLine("Press any key to continue . . .");
                 Console.ReadKey(true);
             }
