@@ -20,6 +20,7 @@
 // THE SOFTWARE. 
 #endregion
 
+#region References
 using System;
 using System.IO;
 using System.Reflection;
@@ -27,6 +28,7 @@ using System.Text;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+#endregion
 
 /// <remarks>
 /// INFO:
@@ -70,23 +72,21 @@ namespace Dotnet.Samples.NHibernate
                             var txt = new StringBuilder();
                                 txt.AppendLine(String.Format("Getting book with ISBN: {0}-{1}-{2}-{3}", isbn.Substring(0,1), isbn.Substring(1,3), isbn.Substring(4,5), isbn.Substring(9,1)));
                                 txt.Append(System.Environment.NewLine);
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
+                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
                                 txt.AppendLine(String.Format("{0,-37} {1,-23} {2,-10} {3,-5}", "Title", "Author", "Published", "Pages"));
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
+                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
                                 txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", book.Title, book.Author, book.Published.ToShortDateString(), book.Pages));
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
-                                txt.Append(System.Environment.NewLine);
+                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
+
                             Console.Write(txt.ToString());
                         }
                     }
                 }
-
             }
             catch (Exception err)
             {
-                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
                 Console.Write(System.Environment.NewLine);
-
+                Console.WriteLine(String.Format("Exception: {0}", err.Message));
                 if (err.InnerException.Message.Length > 0)
                 {
                     Console.WriteLine(String.Format("InnerException: {0}", err.InnerException.Message));   

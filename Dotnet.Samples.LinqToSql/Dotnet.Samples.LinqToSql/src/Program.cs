@@ -45,14 +45,12 @@ namespace Dotnet.Samples.LinqToSql
 
                 var res = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "res");
                 var con = new SqlCeConnectionStringBuilder();
-                con.DataSource = Path.Combine(res, "Northwind.sdf");
-                
-                // TODO: Create a complex LINQ expression with data from all tables.
-
+                    con.DataSource = Path.Combine(res, "Northwind.sdf");
                 var msg = "Retrieving the amount of customers and orders per city in the USA:";
 
                 using (var data = new NorthwindDataContext(con.ConnectionString))
                 {
+                    // TODO: Create a complex LINQ expression with data from all tables.
                     var query = from customer in data.Customers
                                 join order in data.Orders on customer.CustomerID equals order.CustomerID
                                 where customer.Country == "USA" 
@@ -67,27 +65,26 @@ namespace Dotnet.Samples.LinqToSql
                     if (query != null)
                     {
                         var txt = new StringBuilder();
-                        txt.AppendLine(msg);
-                        txt.Append(Environment.NewLine);
-                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "------------------------------------------------------", "-----------", "-----------"));
-                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "City", "Customers", "Orders"));
-                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "------------------------------------------------------", "-----------", "-----------"));
+                            txt.AppendLine(msg);
+                            txt.Append(Environment.NewLine);
+                            txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "-".Repeat(54), "-".Repeat(11), "-".Repeat(11)));
+                            txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "City", "Customers", "Orders"));
+                            txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "-".Repeat(54), "-".Repeat(11), "-".Repeat(11)));
                         
                         foreach (var item in query)
                         {
                             txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", item.City, item.CustomerCount, item.OrderCount));
                         }
-
-                        txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "------------------------------------------------------", "-----------", "-----------"));
+                            txt.AppendLine(String.Format("{0,-54} {1,11} {2,11}", "-".Repeat(54), "-".Repeat(11), "-".Repeat(11)));
+                        
                         Console.Write(txt.ToString());
                     }
-
                 }
             }
             catch (Exception err)
             {
                 Console.Write(Environment.NewLine);
-                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
+                Console.WriteLine(String.Format("Exception: {0}", err.Message));
             }
             finally
             {

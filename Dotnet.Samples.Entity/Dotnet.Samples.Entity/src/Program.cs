@@ -22,9 +22,11 @@
 
 namespace Dotnet.Samples.Entity
 {
+    #region References
     using System;
     using System.Linq;
     using System.Text;
+    #endregion
 
     class Program
     {
@@ -40,23 +42,23 @@ namespace Dotnet.Samples.Entity
                                 select book;
 
                     var txt = new StringBuilder();
-                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
-                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,-10} {3,-5}", "Title", "Author", "Published", "Pages"));
-                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
+                        txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
+                        txt.AppendLine(String.Format("{0,-37} {1,-23} {2,-10} {3,-5}", "Title", "Author", "Published", "Pages"));
+                        txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
 
                     foreach (var book in books)
                     {
                         txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", book.Title, book.Author, book.Published.ToShortDateString(), book.Pages));
                     }
-
-                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
+                        txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
+                
                     Console.WriteLine(txt.ToString());
                 }
             }
             catch (Exception err)
             {
                 Console.Write(Environment.NewLine);
-                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
+                Console.WriteLine(String.Format("Exception: {0}", err.Message));
             }
             finally
             {

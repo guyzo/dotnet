@@ -22,11 +22,13 @@
 
 namespace Dotnet.Samples.Sqlite
 {
+    #region References
     using System;
     using System.Data.SQLite;
     using System.IO;
     using System.Reflection;
     using System.Text;
+    #endregion
 
     class Program
     {
@@ -34,7 +36,7 @@ namespace Dotnet.Samples.Sqlite
         {
             var res = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "res");
             var str = new SQLiteConnectionStringBuilder();
-            str.DataSource = Path.Combine(res, "catalog.sqlite");
+                str.DataSource = Path.Combine(res, "catalog.sqlite");
 
             // INFO: Performing Read for simplicity but could be any CRUD operation.
             var sql = "SELECT * FROM books";
@@ -52,15 +54,17 @@ namespace Dotnet.Samples.Sqlite
                             if (data.HasRows)
                             {
                                 var txt = new StringBuilder();
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,-10} {3,-5}", "Title", "Author", "Published", "Pages"));
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
+                                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
+                                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,-10} {3,-5}", "Title", "Author", "Published", "Pages"));
+                                    txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
+                                
                                 while (data.Read())
                                 {
                                     txt.AppendFormat("{0,-37} {1,-23} {2,10} {3,5}", data.GetString(1), data.GetString(2), data.GetDateTime(4).ToShortDateString(), data.GetValue(5));
                                     txt.Append(Environment.NewLine);
                                 }
-                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-------------------------------------", "-----------------------", "----------", "-----"));
+                                txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
+                                
                                 Console.Write(txt.ToString());
                             }
                             data.Close();
@@ -72,7 +76,7 @@ namespace Dotnet.Samples.Sqlite
             catch (Exception err)
             {
                 Console.Write(Environment.NewLine);
-                Console.WriteLine(String.Format("Exception caught: {0}", err.Message));
+                Console.WriteLine(String.Format("Exception: {0}", err.Message));
             }
             finally
             {

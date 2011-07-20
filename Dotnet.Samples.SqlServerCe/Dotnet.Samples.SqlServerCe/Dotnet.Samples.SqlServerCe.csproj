@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Extensions.cs" />
     <Compile Include="src\Program.cs" />
   </ItemGroup>
   <ItemGroup>

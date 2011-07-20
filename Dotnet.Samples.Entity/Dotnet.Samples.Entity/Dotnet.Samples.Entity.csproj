@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Extensions.cs" />
     <Compile Include="src\Book.cs" />
     <Compile Include="src\Catalog.cs" />
     <Compile Include="src\Program.cs" />
