@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright (c) 2010 Nano Taboada, http://openid.nanotaboada.com.ar
+// Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,8 +41,8 @@ namespace Dotnet.Samples.Extensions
         /// <param name="source">The System.Object to serialize.</param>
         public static void SerializeToXml<T>(this Stream target, T source)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            xmlSerializer.Serialize(target, source);
+            var xmlSerializer = new XmlSerializer(typeof(T));
+                xmlSerializer.Serialize(target, source);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Dotnet.Samples.Extensions
         /// <param name="source">The System.IO.Stream that contains the XML data to deserialize.</param>
         public static T DeserializeFromXml<T>(this Stream source)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            var xmlSerializer = new XmlSerializer(typeof(T));
             return (T)xmlSerializer.Deserialize(source);
         }
 
@@ -64,8 +64,8 @@ namespace Dotnet.Samples.Extensions
         /// <param name="source">The System.Object to serialize.</param>
         public static void SerializeToJson<T>(this Stream target, T source)
         {
-            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(T));
-            jsonSerializer.WriteObject(target, source);
+            var jsonSerializer = new DataContractJsonSerializer(typeof(T));
+                jsonSerializer.WriteObject(target, source);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Dotnet.Samples.Extensions
         /// <param name="source">The System.IO.Stream that contains the JSON data to deserialize.</param>
         public static T DeserializeFromJson<T>(this Stream source)
         {
-            DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(T));
+            var jsonSerializer = new DataContractJsonSerializer(typeof(T));
             return (T)jsonSerializer.ReadObject(source);
         }
 

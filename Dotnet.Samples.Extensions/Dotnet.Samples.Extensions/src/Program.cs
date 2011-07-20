@@ -1,5 +1,5 @@
 ﻿#region License
-// Copyright (c) 2010 Nano Taboada, http://openid.nanotaboada.com.ar
+// Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,48 +30,45 @@ namespace Dotnet.Samples.Extensions
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             try
             {
-                // serializable object
-                Catalog catalog = new Catalog();
-                catalog.Books.Add(
-                    new Book()
-                    {
-                        Isbn = "0061129739",
-                        Title = "The Art of Loving",
-                        Author = "Erich Fromm",
-                        Publisher = "Harper Perennial Modern Classics; 15 Anv edition",
-                        Publication = new DateTime(2006, 11, 21),
-                        Pages = 184
-                    }
-                );
+                var catalog = new Catalog();
+                    catalog.Books.Add(
+                        new Book()
+                        {
+                            Isbn = "0061129739",
+                            Title = "The Art of Loving",
+                            Author = "Erich Fromm",
+                            Publisher = "Harper Perennial Modern Classics; 15 Anv edition",
+                            Publication = new DateTime(2006, 11, 21),
+                            Pages = 184
+                        }
+                    );
 
-                // XML serialization
-                Console.BackgroundColor = ConsoleColor.DarkCyan;
-                using (MemoryStream persistence = new MemoryStream())
+                #region XML
+                using (var stream = new MemoryStream())
                 {
-                    persistence.SerializeToXml<Catalog>(catalog);
-                    Console.WriteLine(Encoding.Default.GetString(persistence.ToArray()));
+                    stream.SerializeToXml<Catalog>(catalog);
+                    Console.WriteLine(Encoding.Default.GetString(stream.ToArray()));
+                    Console.WriteLine(Environment.NewLine);
                 }
+                #endregion
 
-                Console.WriteLine(Environment.NewLine);
-
-                // JSON serialization
-                Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                using (MemoryStream persistence = new MemoryStream())
+                #region JSON
+                using (var stream = new MemoryStream())
                 {
-                    persistence.SerializeToJson<Catalog>(catalog);
-                    Console.WriteLine(Encoding.Default.GetString(persistence.ToArray()));
+                    stream.SerializeToJson<Catalog>(catalog);
+                    Console.WriteLine(Encoding.Default.GetString(stream.ToArray()));
+                    Console.WriteLine(Environment.NewLine);
                 }
-
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine(Environment.NewLine);
+                #endregion
             }
-            catch (Exception error)
+            catch (Exception err)
             {
-                Console.WriteLine(String.Format("Exception caught: {0}", error.Message));
+                Console.Write(Environment.NewLine);
+                Console.WriteLine(String.Format("Exception: {0}", err.Message));
             }
             finally
             {

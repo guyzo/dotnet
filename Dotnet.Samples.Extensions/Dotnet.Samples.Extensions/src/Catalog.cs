@@ -28,29 +28,14 @@ namespace Dotnet.Samples.Extensions
     using System.Runtime.Serialization;
     using System.Xml.Serialization;
     #endregion
-
     /// <summary>
-    /// A simple serializable class that represents a book.
+    /// A simple serializable class that represents a catalog of books.
     /// </summary>
-    [Serializable, XmlRoot("book"), DataContract]
-    public class Book
+    [Serializable, XmlRoot("books"), XmlType("books"), DataContract]
+    public class Catalog
     {
-        [XmlAttribute("isbn"), DataMember]
-        public string Isbn { get; set; }
-        [XmlAttribute("title"), DataMember]
-        public string Title { get; set; }
-        [XmlAttribute("author"), DataMember]
-        public string Author { get; set; }
-        [XmlAttribute("publisher"), DataMember]
-        public string Publisher { get; set; }
-        [XmlAttribute("publication"), DataMember]
-        public DateTime Publication { get; set; }
-        [XmlAttribute("pages"), DataMember]
-        public int Pages { get; set; }
-
-        public Book()
-        {
-
-        }
+        private List<Book> books = new List<Book>();
+        [XmlElement("book"), DataMember]
+        public List<Book> Books { get { return books; } }
     }
 }
