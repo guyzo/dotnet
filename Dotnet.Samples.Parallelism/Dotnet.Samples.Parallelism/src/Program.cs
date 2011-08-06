@@ -45,7 +45,13 @@ namespace Dotnet.Samples.Parallelism
                 /// the amount of parallel tasks (not less than 2 -- up to 9).
                 /// </remarks>
                 var random = new RNGCryptoServiceProvider();
-                byte[] buffer = new byte[4];
+                var buffer = new byte[4];
+
+
+                /// <remarks>
+                ///  Generates a random number of iterations (between 2 to 9). 
+                ///  This will determine the amount of tasks to create.
+                /// </remarks>
                 random.GetBytes(buffer);
                 var iterations = new Random(BitConverter.ToInt32(buffer, 0)).Next(2, 9);
 
@@ -54,35 +60,50 @@ namespace Dotnet.Samples.Parallelism
                 /// populate the list of parallel tasks.
                 /// </remarks>
                 var items = new Dictionary<int, string>();
-                Console.WriteLine("Creating " + iterations + " Parallel Tasks . . .");
+
+                Console.WriteLine("Creating " + iterations + " Parallel Tasks");
                 Console.Write(Environment.NewLine);
 
-                for (int i = 1; i < iterations + 1; i++) // NOTE: Cosmetic +1 avoids "Task 0"
+                /// <remarks>
+                /// Cosmetic +1 avoids "Task 0"
+                /// </remarks>
+                for (var i = 1; i < iterations + 1; i++)
                 {
                     items.Add(i, String.Format("Task {0}", i));
                 }
 
                 var tasks = new List<Task>();
 
-                foreach (var item in items) // TODO: I guess we might use a Parallel.Foreach() here
+                // TODO: I guess we might use a Parallel.Foreach() here
+                foreach (var item in items)
                 {
                     /// <remarks>
-                    ///  Creates a random interval (between 1 to 9 seconds) to 
-                    ///  pause the current thread at.
+                    ///  Generates a random interval (between 1 to 9 seconds). 
+                    ///  This will determine when to pause the current thread.
                     /// </remarks>
                     random.GetBytes(buffer);
-                    int interval = new Random(BitConverter.ToInt32(buffer, 0)).Next(1000, 9000);
+                    var interval = new Random(BitConverter.ToInt32(buffer, 0)).Next(1000, 9000);
 
-                    var temp = item; // NOTE: The 'temp' variable is just a console helper.
+                    /// <remarks>
+                    /// The 'temp' variable is just a console helper.
+                    /// </remarks>
+                    var temp = item;
 
                     /// <remarks>
                     /// Creates and starts a new parallel task.
                     /// The 'state' as well as the returned value could be any
                     /// type of object.
                     /// </remarks>
-                    var task = Task.Factory.StartNew(state =>
+                    var task = Task.Factory.StartNew(s =>
                     {
-                        Console.WriteLine(String.Format("[{0}] {1} started, will take {2} miliseconds to complete . . .", DateTime.Now.TimeOfDay, temp.Value, interval));
+                        Console.WriteLine(
+                            String.Format("[{0}] {1} started, will take {2} miliseconds to complete . . .",
+                                DateTime.Now.TimeOfDay,
+                                temp.Value,
+                                interval
+                            )
+                        );
+
                         Thread.Sleep(interval);
 
                         return "Lorem ipsum dolor sit amet.";
@@ -91,7 +112,15 @@ namespace Dotnet.Samples.Parallelism
                         /// Creates a continuation action so each tasks will print
                         /// its name and return value immediately after completion.
                         /// </remarks>
-                    }, temp.Value).ContinueWith(t => Console.WriteLine(String.Format("[{0}] {1} completed. Result: {2}", DateTime.Now.TimeOfDay, t.AsyncState, t.Result)));
+                    }, temp.Value).ContinueWith(t => 
+                        Console.WriteLine(
+                            String.Format(
+                                "[{0}] {1} completed. Result: {2}",
+                                DateTime.Now.TimeOfDay,
+                                t.AsyncState,
+                                t.Result)
+                            )
+                        );
 
                     tasks.Add(task);
                 }
