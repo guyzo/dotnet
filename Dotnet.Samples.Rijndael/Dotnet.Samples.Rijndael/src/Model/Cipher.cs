@@ -33,71 +33,93 @@ namespace Dotnet.Samples.Rijndael
     sealed class Cipher
     {
         #region Properties
-        /// <remarks>
-        /// Refactored implementing the Model-View-ViewModel pattern.
-        /// </remarks>
         internal string Plaintext { get; set; }
         internal string Ciphertext { get; set; }
         internal string Passphrase { get; set; }
         internal string Salt { get; set; }
-        internal string HashName { get; set; }
-        internal int IterationCount { get; set; }
-        internal string InitVector { get; set; }
-        internal int KeySize { get; set; }
         #endregion
 
         #region Constructors
-        /// <remarks>
-        /// Refactored implementing the Model-View-ViewModel pattern.
-        /// </remarks>
-        public Cipher()
-        {
-
-        }
+        public Cipher() { }
         #endregion
 
         #region Methods
         public string Encrypt()
         {
-            byte[] saltData = Encoding.ASCII.GetBytes(Salt);
-            byte[] plaintextData = Encoding.UTF8.GetBytes(Plaintext);
-            PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(Passphrase, saltData, HashName, IterationCount);
-            byte[] keyData = derivedPassword.GetBytes(KeySize / 8);
-            byte[] vectorData = Encoding.ASCII.GetBytes(InitVector);
-            RijndaelManaged symmetricKey = new RijndaelManaged();
-            symmetricKey.Mode = CipherMode.CBC;
-            ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyData, vectorData);
-            using (MemoryStream persistence = new MemoryStream())
-            {
-                using (CryptoStream transformer = new CryptoStream(persistence, encryptor, CryptoStreamMode.Write))
-                {
-                    transformer.Write(plaintextData, 0, plaintextData.Length);
-                    transformer.FlushFinalBlock();
-                    byte[] ciphertextData = persistence.ToArray();
+            var rfc2898DeriveBytes = new Rfc2898DeriveBytes(
+                Passphrase,
+                Encoding.ASCII.GetBytes(Salt)
+                );
 
-                    return Convert.ToBase64String(ciphertextData);
+            var rijndaelManaged = new RijndaelManaged();
+                rijndaelManaged.Mode = CipherMode.CBC;
+                rijndaelManaged.Key = rfc2898DeriveBytes.GetBytes(32);
+                rijndaelManaged.IV = rfc2898DeriveBytes.GetBytes(16);
+
+            var memoryStream = new MemoryStream();
+
+            using (memoryStream)
+            {
+                var cryptoStream = new CryptoStream(
+                    memoryStream,
+                    rijndaelManaged.CreateEncryptor(),
+                    CryptoStreamMode.Write
+                    );
+
+                using (cryptoStream)
+                {
+                    var plaintext = Encoding.UTF8.GetBytes(Plaintext);
+                    
+                    cryptoStream.Write(
+                        plaintext,
+                        plaintext.GetLowerBound(0),
+                        plaintext.Length
+                        );
+                    cryptoStream.FlushFinalBlock();
+
+                    var cyphertext = Convert.ToBase64String(memoryStream.ToArray());
+
+                    return cyphertext;
                 }
             }
         }
 
         public string Decrypt()
         {
-            byte[] ciphertextData = Convert.FromBase64String(Ciphertext);
-            byte[] saltData = Encoding.ASCII.GetBytes(Salt);
-            PasswordDeriveBytes derivedPassword = new PasswordDeriveBytes(Passphrase, saltData, HashName, IterationCount);
-            byte[] keyData = derivedPassword.GetBytes(KeySize / 8);
-            byte[] vectorData = Encoding.ASCII.GetBytes(InitVector);
-            RijndaelManaged symmetricKey = new RijndaelManaged();
-            symmetricKey.Mode = CipherMode.CBC;
-            ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyData, vectorData);
-            using (MemoryStream persistence = new MemoryStream(ciphertextData))
-            {
-                using (CryptoStream transformer = new CryptoStream(persistence, decryptor, CryptoStreamMode.Read))
-                {
-                    byte[] plaintextData = new byte[ciphertextData.Length];
-                    int plaintextSize = transformer.Read(plaintextData, 0, plaintextData.Length);
+            var rfc2898DeriveBytes = new Rfc2898DeriveBytes(
+                Passphrase,
+                Encoding.ASCII.GetBytes(Salt)
+                );
 
-                    return Encoding.UTF8.GetString(plaintextData, 0, plaintextSize);
+            var rijndaelManaged = new RijndaelManaged();
+                rijndaelManaged.Mode = CipherMode.CBC;
+                rijndaelManaged.Key = rfc2898DeriveBytes.GetBytes(32);
+                rijndaelManaged.IV = rfc2898DeriveBytes.GetBytes(16);
+
+            var memoryStream = new MemoryStream();
+
+            using (memoryStream)
+            {
+                var cryptoStream = new CryptoStream(
+                    memoryStream,
+                    rijndaelManaged.CreateDecryptor(),
+                    CryptoStreamMode.Write
+                    );
+
+                using (cryptoStream)
+                {
+                    var ciphertext = Convert.FromBase64String(Ciphertext);
+
+                    cryptoStream.Write(
+                        ciphertext,
+                        ciphertext.GetLowerBound(0),
+                        ciphertext.Length
+                        );
+                    cryptoStream.FlushFinalBlock();
+
+                    var plaintext = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+                    return plaintext;
                 }
             }
         }

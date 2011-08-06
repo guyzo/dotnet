@@ -92,58 +92,6 @@ namespace Dotnet.Samples.Rijndael
             }
         }
 
-        public string HashName
-        {
-            get
-            {
-                return this._cipher.HashName;
-            }
-            set
-            {
-                this._cipher.HashName = value;
-                OnPropertyChanged("HashName");
-            }
-        }
-
-        public int IterationCount
-        {
-            get
-            {
-                return this._cipher.IterationCount;
-            }
-            set
-            {
-                this._cipher.IterationCount = value;
-                OnPropertyChanged("HashName");
-            }
-        }
-
-        public string InitVector
-        {
-            get
-            {
-                return this._cipher.InitVector;
-            }
-            set
-            {
-                this._cipher.InitVector = value;
-                OnPropertyChanged("HashName");
-            }
-        }
-
-        public int KeySize
-        {
-            get
-            {
-                return this._cipher.KeySize;
-            }
-            set
-            {
-                this._cipher.KeySize = value;
-                OnPropertyChanged("HashName");
-            }
-        }
-
         private CipherCommand _encryptCommand;
         public CipherCommand EncryptCommand
         {
@@ -180,10 +128,6 @@ namespace Dotnet.Samples.Rijndael
             {
                 Passphrase = "foobar",
                 Salt = "NaCl",
-                HashName = "SHA1",
-                IterationCount = 1,
-                InitVector = "0110111001110100",
-                KeySize = 128
             };
 
             this._encryptCommand = new CipherCommand(Encrypt);
@@ -255,40 +199,9 @@ namespace Dotnet.Samples.Rijndael
                         {
                             error = "Salt value cannot be null or empty.";
                         }
-                        break;
-
-                    case "HashName":
-                        if (string.IsNullOrEmpty(this.HashName))
+                        else if (this.Salt.Length <= 8)
                         {
-                            error = "Hash Name cannot be blank.";
-                        }
-
-                        Regex regex = new Regex("(MD5)|(SHA1)", RegexOptions.Compiled);
-
-                        if (!regex.IsMatch(this.HashName)) // arbitrary business rule
-                        {
-                            error = "Hash Name value must be either MD5 or SHA1.";
-                        }
-                        break;
-
-                    case "IterationCount":
-                        if ((this.IterationCount <= 0) || (this.IterationCount >= 9)) // arbitrary business rule
-                        {
-                            error = "Iteration Count number must be positive and cannot exceed 9.";
-                        }
-                        break;
-
-                    case "InitVector":
-                        if (this.InitVector.Length != 16)
-                        {
-                            error = "Init Vector value must be exactly 16 characters long.";
-                        }
-                        break;
-
-                    case "KeySize":
-                        if (this.KeySize <= 0)
-                        {
-                            error = "Key Size value must be a positive number.";
+                            error = "Salt should be at least eight bytes long.";
                         }
                         break;
                 }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Dotnet.Samples.Rijndael"
         Title="Sample of Advanced Encryption Standard (Rijndael)"
-        Width="640" MinWidth="640" MaxWidth="1280" Height="400" MinHeight="400" MaxHeight="400"
+        Width="640" MinWidth="480" MaxWidth="1280" Height="320" MinHeight="320" MaxHeight="320"
         Icon="/res/VisualStudio.ico"
         Name="RijndaelWindow">
     <Window.Resources>
@@ -49,15 +49,9 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="0" Name="PassphraseTextBlock" Text="Passphrase" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" TextAlignment="Right"/>
                     <TextBox Grid.Column="1" Grid.Row="0" Name="PassphraseTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding Passphrase, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Column="0" Grid.Row="1" Name="SaltTextBlock" Text="Salt" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" TextAlignment="Right"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Name="SaltTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding Salt, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Column="0" Grid.Row="2" Name="HashNameTextBlock" Text="Hash Name" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" TextAlignment="Right" />
-                    <TextBox Grid.Column="1" Grid.Row="2" Name="HashNameTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding HashName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
                 <Grid Grid.Column="1" Name="SettingsGridRight" ShowGridLines="False" Margin="16,8,0,8">
                     <Grid.ColumnDefinitions>
@@ -66,15 +60,9 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Name="IterationCountTextBlock" Text="Iteration Count" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
-                    <TextBox Grid.Column="1" Grid.Row="0" Name="IterationCountTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding IterationCount, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Column="0" Grid.Row="1" Name="InitVectorTextBlock" Text="Init Vector" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
-                    <TextBox Grid.Column="1" Grid.Row="1" Name="InitVectorTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding InitVector, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Column="0" Grid.Row="2" Name="KeySizeTextBlock" Text="Key Size" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
-                    <TextBox Grid.Column="1" Grid.Row="2" Name="KeySizeTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding KeySize, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Name="SaltTextBlock" Text="Salt" Width="Auto" Height="24" Margin="8" TextAlignment="Right" />
+                    <TextBox Grid.Column="1" Grid.Row="0" Name="SaltTextBox" Width="Auto" MinHeight="24" MaxHeight="24" Margin="8" IsReadOnly="False" Background="White" Text="{Binding Salt, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Grid>
         </GroupBox>
