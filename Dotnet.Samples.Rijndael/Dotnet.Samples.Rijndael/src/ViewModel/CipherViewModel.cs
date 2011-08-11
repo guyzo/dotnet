@@ -20,9 +20,6 @@
 // THE SOFTWARE. 
 #endregion
 
-/// <remarks>
-/// Mapping and naming conventions inspired by Laurent Bugnion http://blog.galasoft.ch
-/// </remarks>
 namespace Dotnet.Samples.Rijndael
 {
     #region References
@@ -30,8 +27,6 @@ namespace Dotnet.Samples.Rijndael
     using System.ComponentModel;
     using System.Text.RegularExpressions;
     #endregion
-
-    // TODO: Implement CanExecuteChanged properly to control the execution of DecryptCommand
 
     public class CipherViewModel : ViewModel, IDataErrorInfo
     {
@@ -92,31 +87,31 @@ namespace Dotnet.Samples.Rijndael
             }
         }
 
-        private CipherCommand _encryptCommand;
-        public CipherCommand EncryptCommand
+        private EncryptCommand _encrypt;
+        public EncryptCommand Encrypt
         {
             get
             {
-                return _encryptCommand;
+                return _encrypt;
             }
             set
-            { 
-                _encryptCommand = value;
-                OnPropertyChanged("EncryptCommand");
+            {
+                this._encrypt = value;
+                OnPropertyChanged("Encrypt");
             }
         }
 
-        private CipherCommand _decryptCommand;
-        public CipherCommand DecryptCommand
+        private DecryptCommand _decrypt;
+        public DecryptCommand Decrypt
         {
             get
             {
-                return _decryptCommand;
+                return _decrypt;
             }
             set
             {
-                _decryptCommand = value;
-                OnPropertyChanged("DecryptCommand");
+                this._decrypt = value;
+                OnPropertyChanged("Decrypt");
             }
         }
         #endregion
@@ -125,37 +120,31 @@ namespace Dotnet.Samples.Rijndael
         public CipherViewModel()
         {
             this._cipher = new Cipher()
-            {
+            { 
                 Passphrase = "foobar",
-                Salt = "NaCl",
+                Salt = "NaCl"
             };
 
-            this._encryptCommand = new CipherCommand(Encrypt);
-            this._decryptCommand = new CipherCommand(Decrypt);
+            this._encrypt = new EncryptCommand(this, DoEncrypt);
+            this._decrypt = new DecryptCommand(this, DoDecrypt);
         }
         #endregion
 
         #region Methods
-        private void Encrypt()
+        private void DoEncrypt()
         {
-            if (!string.IsNullOrEmpty(this._cipher.Plaintext))
-            {
-                this._cipher.Ciphertext = this._cipher.Encrypt();
-                OnPropertyChanged("Ciphertext");
-                this._cipher.Plaintext = String.Empty;
-                OnPropertyChanged("Plaintext");
-            }
+            this._cipher.Ciphertext = this._cipher.Encrypt();
+            OnPropertyChanged("Ciphertext");
+            this._cipher.Plaintext = String.Empty;
+            OnPropertyChanged("Plaintext");
         }
 
-        private void Decrypt()
+        private void DoDecrypt()
         {
-            if (!string.IsNullOrEmpty(this._cipher.Ciphertext))
-            {
-                this._cipher.Plaintext = this._cipher.Decrypt();
-                OnPropertyChanged("Plaintext");
-                this._cipher.Ciphertext = String.Empty;
-                OnPropertyChanged("Ciphertext");
-            }
+            this._cipher.Plaintext = this._cipher.Decrypt();
+            OnPropertyChanged("Plaintext");
+            this._cipher.Ciphertext = String.Empty;
+            OnPropertyChanged("Ciphertext");
         }
         #endregion
 

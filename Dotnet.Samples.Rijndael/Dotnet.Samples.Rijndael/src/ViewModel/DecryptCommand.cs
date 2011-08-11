@@ -25,25 +25,43 @@ namespace Dotnet.Samples.Rijndael
     #region References
     using System;
     using System.Windows.Input;
+    using System.Windows;
     #endregion
 
-    public class CipherCommand : ICommand
+    public class DecryptCommand : ICommand
     {
         #region Fields
+        private readonly CipherViewModel _cipherViewModel;
         private readonly Action _action;
         #endregion
-
+        
         #region Constructors
-        public CipherCommand(Action action)
+        public DecryptCommand(CipherViewModel cipherViewModel, Action action)
         {
+            this._cipherViewModel = cipherViewModel;
             this._action = action;
+
+            this._cipherViewModel.PropertyChanged += (s, e) =>
+            {
+                if (CanExecuteChanged != null
+                    && e.PropertyName == "Ciphertext")
+                {
+                    CanExecuteChanged(this, EventArgs.Empty);
+                }
+            };
         }
         #endregion
 
         #region Methods
         public bool CanExecute(object parameter)
         {
-            return true;
+            if (_cipherViewModel != null
+                && !string.IsNullOrEmpty(this._cipherViewModel.Ciphertext))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void Execute(object parameter)

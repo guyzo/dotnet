@@ -39,10 +39,6 @@ namespace Dotnet.Samples.Rijndael
         internal string Salt { get; set; }
         #endregion
 
-        #region Constructors
-        public Cipher() { }
-        #endregion
-
         #region Methods
         public string Encrypt()
         {
