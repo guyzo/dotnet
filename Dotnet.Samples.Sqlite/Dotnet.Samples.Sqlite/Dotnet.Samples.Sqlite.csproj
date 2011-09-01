@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="res\Extensions.cs" />
+    <Compile Include="src\Extensions.cs" />
     <Compile Include="src\Program.cs" />
   </ItemGroup>
   <ItemGroup>
