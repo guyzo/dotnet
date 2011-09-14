@@ -34,10 +34,6 @@ using NHibernate.Tool.hbm2ddl;
 /// INFO:
 /// - The 'Copy Local' property of the referenced database assembly
 ///   'System.Data.SqlServerCe' should be set to 'True'.
-/// - The 'Build Action' property of either the mapping configuration file
-///   'Book.hbm.xml' and its associated schema 'nhibernate-mapping.xsd' should
-///   be set to 'Embedded Resource'.
-/// - The mapped classes should have their 'lazy' attribute set to 'false'. 
 /// </remarks>
 
 namespace Dotnet.Samples.NHibernate
@@ -48,14 +44,7 @@ namespace Dotnet.Samples.NHibernate
         {
             try
             {
-                var asm = Assembly.GetExecutingAssembly().Location;
-                var xml = Path.Combine(Path.GetDirectoryName(asm), "cfg", "hibernate.cfg.xml");
-                var cfg = new Configuration();
-                    cfg.Configure(xml);
-                    cfg.AddAssembly(typeof(Book).Assembly);
-                var hbm = new SchemaExport(cfg);
-
-                ISessionFactory isf = cfg.BuildSessionFactory();
+                var isf = Helpers.CreateSessionFactory();
 
                 using (ISession session = isf.OpenSession())
                 {
@@ -70,6 +59,7 @@ namespace Dotnet.Samples.NHibernate
                         if (book != null)
                         {
                             var txt = new StringBuilder();
+                                txt.Append(System.Environment.NewLine);
                                 txt.AppendLine(String.Format("Getting book with ISBN: {0}-{1}-{2}-{3}", isbn.Substring(0,1), isbn.Substring(1,3), isbn.Substring(4,5), isbn.Substring(9,1)));
                                 txt.Append(System.Environment.NewLine);
                                 txt.AppendLine(String.Format("{0,-37} {1,-23} {2,10} {3,5}", "-".Repeat(37), "-".Repeat(23), "-".Repeat(10), "-".Repeat(5)));
@@ -87,10 +77,6 @@ namespace Dotnet.Samples.NHibernate
             {
                 Console.Write(System.Environment.NewLine);
                 Console.WriteLine(String.Format("Exception: {0}", err.Message));
-                if (err.InnerException.Message.Length > 0)
-                {
-                    Console.WriteLine(String.Format("InnerException: {0}", err.InnerException.Message));   
-                }
             }
             finally
             {
