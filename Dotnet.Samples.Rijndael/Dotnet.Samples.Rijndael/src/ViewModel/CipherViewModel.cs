@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -121,7 +121,6 @@ namespace Dotnet.Samples.Rijndael
         {
             this._cipher = new Cipher()
             { 
-                Passphrase = "foobar",
                 Salt = "NaCl"
             };
 
@@ -188,7 +187,7 @@ namespace Dotnet.Samples.Rijndael
                         {
                             error = "Salt value cannot be null or empty.";
                         }
-                        else if (this.Salt.Length <= 8)
+                        else if (this.Salt.Length < 8)
                         {
                             error = "Salt should be at least eight bytes long.";
                         }
@@ -201,5 +200,3 @@ namespace Dotnet.Samples.Rijndael
         #endregion
     }
 }
-
-
