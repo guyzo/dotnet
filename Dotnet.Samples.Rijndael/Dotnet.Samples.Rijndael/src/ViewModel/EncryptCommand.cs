@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 // Copyright (c) 2011 Nano Taboada, http://openid.nanotaboada.com.ar 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -43,8 +43,10 @@ namespace Dotnet.Samples.Rijndael
 
             this._cipherViewModel.PropertyChanged += (s, e) =>
             {
-                if (CanExecuteChanged != null
-                    && e.PropertyName == "Plaintext")
+                if (CanExecuteChanged != null &&
+                    (e.PropertyName == "Plaintext"
+                    || e.PropertyName == "Passphrase"
+                    || e.PropertyName == "Salt"))
                 {
                     CanExecuteChanged(this, EventArgs.Empty);
                 }
@@ -56,7 +58,9 @@ namespace Dotnet.Samples.Rijndael
         public bool CanExecute(object parameter)
         {
             if (this._cipherViewModel != null
-                && !string.IsNullOrEmpty(this._cipherViewModel.Plaintext))
+                && !string.IsNullOrEmpty(this._cipherViewModel.Plaintext)
+                && !string.IsNullOrEmpty(this._cipherViewModel.Passphrase)
+                && this._cipherViewModel.Salt.Length => 8)
             {
                 return true;
             }
